@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.zerock.board2.mappers.BoardMapper">
+
+    <select id="getList" resultType="org.zerock.board2.dto.BoardDTO">
+            select * from tbl_board1
+            where bno > 0 
+
+    <if test="keyword != null and type != ''">
+      and
+      <if test="type == 'title' or type == 'all'">
+        title like concat('%', #{keyword}, '%')
+      </if>
+      <if test="type == 'content' or type == 'all'">
+        <if test="type == 'all'">or</if>
+        content like concat('%', #{keyword}, '%')
+      </if>
+      <if test="type == 'writer' or type == 'all'">
+        <if test="type == 'all'">or</if>
+        writer like concat('%', #{keyword}, '%')
+      </if>
+    </if>
+            order by bno desc 
+            limit #{skip}, #{size}  
+              </select>
+
+    <select id="getOne" resultType="org.zerock.board2.dto.BoardDTO">
+        select * from tbl_board1 where bno = #{bno}
+    </select>
+
+    <insert id="insertOne" parameterType="org.zerock.board2.dto.BoardDTO">
+        insert into tbl_board1 (title,content,writer) values (#{title},#{content},#{writer})
+        <selectKey resultType="long" keyProperty="tno" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <delete id="deleteOne">
+        delete from tbl_board1 where bno =#{bno}
+    </delete>
+
+    <update id="modifyOne" parameterType="org.zerock.board2.dto.BoardDTO">
+        update tbl_board1 set 
+        title = #{title},
+        content = #{content},
+        moddate = now()
+        where bno = #{bno}
+    </update>
+
+    <select id="listCount" resultType="long">
+        select count(*) 
+        from 
+        (select bno from tbl_board1 
+        where bno > 0 
+     <if test="keyword != null and type != ''">
+      and
+      <if test="type == 'title' or type == 'all'">
+        title like concat('%', #{keyword}, '%')
+      </if>
+      <if test="type == 'content' or type == 'all'">
+        <if test="type == 'all'">or</if>
+        content like concat('%', #{keyword}, '%')
+      </if>
+      <if test="type == 'writer' or type == 'all'">
+        <if test="type == 'all'">or</if>
+        writer like concat('%', #{keyword}, '%')
+      </if>
+    </if>
+        
+        limit #{countEnd}) board
+    
+    </select>
+
+</mapper>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/lteLayout.html}">
+
+<head>
+
+    <title>Update</title>
+</head>
+
+<body>
+    <div layout:fragment="content">
+
+        <form class="form-horizontal" action="/board/modify/" method="post">
+
+            <input type="text" name="bno" readonly th:value="${dto.bno}">
+            <h4>제목</h4>
+
+            <input type="text" name="title" th:value="${dto.title}"> <br>
+
+            <br>
+            <h4>내용을 입력하세요</h4>
+            <textarea rows="20" cols="50" name="content"> [[${dto.content}]]</textarea> <br>
+            <div>
+                <button type="button" class="btn btn-primary modifyButton">수정</button>
+                <button type="button" class="btn btn-danger deleteButton">
+                    삭제
+                </button>
+                <button type="button" class="btn btn-info readButton">
+                    읽기
+                </button>
+
+            </div>
+
+
+        </form>
+        <div class="modal alertModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal deleteModal" tabindex="-1" role="dialog">
+            <form method="post" class="actionForm">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-body">정말 삭제 하시겠습니까?</div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary btnDelModal" data-bs-dismiss="modal">확인</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                </div>
+              </div>
+            </div>
+            </form>
+          </div>
+
+
+
+    </div>
+
+    <script layout:fragment="script" th:inline="javascript">
+
+        const delBtn = document.querySelector(".deleteButton");
+        const modBtn = document.querySelector(".modifyButton")
+        const readBtn = document.querySelector(".readButton")
+        const actionForm = document.querySelector(".form-horizontal");
+        const { dto } = [[${ dto }]]
+        const { link } = [[${ pageRequestDTO }]]
+        const alertModal = document.querySelector(".alertModal")
+        const deleteModal = document.querySelector(".deleteMoadl")
+        const btnDelModal = document.querySelector(".btnDelMoadl")
+
+        modBtn.addEventListener("click", (e) => {
+            alertModal.show()
+            actionForm.setAttribute("action", `/board/modify`)
+            actionForm.setAttribute("method", `post`)
+            actionForm.submit();
+        },false)
+
+
+        delBtn.addEventListener("click", (e) => {
+            deleteModal.show()
+        },false)
+        
+        btnDelModal.addEventListener("click", (e) => {
+            actionForm.setAttribute("action", `/board/delete/${bno}`)
+            actionForm.submit();
+        },false)
+
+        readBtn.addEventListener("click", (e) => {
+            actionForm.setAttribute("action", `/board/read/${bno}?${link}`)
+            actionForm.setAttribute("method", `get`)
+            actionForm.submit();
+        },false)
+
+    </script>
+</body>
+
+</html>

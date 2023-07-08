@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/lteLayout.html}">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Board Read</title>
+</head>
+
+<body>
+  <div layout:fragment="content">
+
+    <form class="form-horizontal" action="/board/delete/" method="post">
+      <div class="card-body px-0 pt-0 pb-2">
+        <div class="table-responsive p-0">
+
+
+          <div class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">글번호 <br>
+            <input type="text" class="boardNum" th:value="${dto.bno}" readonly />
+          </div>
+
+
+          <div class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">제목 <br>
+            <input type="text" class="boardTitle" th:value="${dto.title}" readonly />
+          </div>
+
+
+          <div class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">내용 <br>
+            <input type="text" class="boardContent" th:value="${dto.content}" readonly />
+          </div>
+          <div class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">작성자 <br>
+            <input type="text" class="boardWriter" th:value="${dto.writer}" readonly />
+          </div>
+          <div class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">작성일 <br>
+            <input type="text" class="boarddate" th:value="${dto.regdate}" readonly />
+          </div>
+
+        </div>
+      </div>
+      <div>
+        <button type="button" class="btn btn-primary modifyButton">
+          수정
+        </button>
+
+  
+        <button type="button" class="btn btn-info listButton">
+          목록
+        </button>
+      </div>
+
+    </form>
+
+    <div class="modal workMoadl" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title">Modal title</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  <input type="text" name="gno" readonly>
+                  <input type="text" name="reply" value="AAAA">
+                  <input type="text" name="replyer" value="user00">
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-info btnAdd">ADD</button>
+                  <button type="button" class="btn btn-danger btnDelete">DELETE</button>
+                  <button type="button" class="btn btn-primary btnModify">MODIFY</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+          </div>
+      </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/js/axios.js"></script>
+
+  </div>
+  <script layout:fragment="script" th:inline="javascript">
+
+    const modBtn = document.querySelector(".modifyButton")
+    const listBtn = document.querySelector(".listButton")
+    const actionForm = document.querySelector(".form-horizontal");
+ 
+    const { bno } = [[${ dto }]]
+    const {link} = [[${pageRequestDTO}]]
+    
+    // const {page} = [[${PageRequestDTO}]]
+
+
+    modBtn.addEventListener("click", (e) => {
+      actionForm.setAttribute("action", `/board/modify/${bno}?${link}`)
+      actionForm.setAttribute("method", `get`)
+      actionForm.submit();
+    },false)
+
+    listBtn.addEventListener("click", (e) => {
+      console.log(bno)
+      actionForm.setAttribute("action", `/board/list?${link}`)
+      actionForm.setAttribute("method", `get`)
+      actionForm.submit();
+    },false)
+    </script>
+
+</body>
+
+</html>
