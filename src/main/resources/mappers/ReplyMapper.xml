@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.zerock.board2.mappers.ReplyMapper">
+
+<insert id="insertReply" parameterType="org.zerock.board2.dto.ReplyDTO">
+
+insert into tbl_reply1 (bno, reply, replyer) values(#{bno},#{reply},#{replyer})
+  <selectKey resultType="long" keyProperty="rno" order="AFTER">
+        SELECT LAST_INSERT_ID()
+  </selectKey> 
+</insert>
+
+
+<update id = "updateGno">
+update tbl_reply1 set gno = #{gno} where rno = #{rno}
+</update>
+
+<insert id ="insertReplyChild" parameterType="com.example.myBoard.dto.ReplyDTO">
+
+insert into tbl_reply1 (bno, reply, replyer, gno) values(#{bno},#{reply},#{replyer}, #{gno})
+  <selectKey resultType="long" keyProperty="rno" order="AFTER">
+        SELECT LAST_INSERT_ID()
+  </selectKey> 
+
+</insert>
+<select id="readReply" resultType="com.example.myBoard.dto.ReplyDTO">
+select * from tbl_reply1 where rno = #{rno}
+</select>
+
+<select id="replyList" resultType="com.example.myBoard.dto.ReplyDTO">
+    select
+    if(rno = gno, 0,1) as step , bno , rno , gno , reply, replyer , replyDate 
+    from tbl_reply1
+    where bno=#{bno}
+    order by gno asc , rno asc
+    limit #{page.skip} , #{page.size}
+</select>
+
+
+<delete id="replyDelete" parameterType="long">
+    delete from tbl_reply where rno =#{rno}
+</delete>
+
+
+<update id="updateReply" parameterType="com.example.myBoard.dto.ReplyDTO">
+update tbl_reply 
+set reply = #{reply},
+    replyer = #{replyer},
+    replyDate = noW()
+where rno = #{rno}
+</update>
+
+
+<select id="total">
+select count(rno) from tbl_reply where bno = #{bno}
+</select>
+
+
+
+</mapper>
