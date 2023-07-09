@@ -24,13 +24,13 @@ public class ReplyController {
 
     private final ReplyService replyService;
 
-    @GetMapping("{tno}/list")
+    @GetMapping("{bno}/list")
     public PageResponseDTO<ReplyDTO> getlist(@PathVariable("bno") Long bno, PageRequestDTO requestDTO) {
         return replyService.replyList(requestDTO, bno);
     }
 
 
-    @PostMapping("{tno}/new")
+    @PostMapping("{bno}/new")
     public Map<String, Long> insert(@PathVariable("bno") Long bno, @RequestBody ReplyDTO replyDTO) {
         replyDTO.setBno(bno);
 
