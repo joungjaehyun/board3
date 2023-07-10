@@ -52,16 +52,16 @@ public class BoardController {
                 log.info("cookie.getName " + cookie.getName());
                 log.info("cookie.getValue " + cookie.getValue());
 
-                if (!cookie.getValue().contains(request.getParameter("boardIdx"))) {
-                    cookie.setValue(cookie.getValue() + "_" + request.getParameter("boardIdx"));
-                    cookie.setMaxAge(60 * 60 * 2);  /* 쿠키 시간 */
+                if (!cookie.getValue().contains(request.getParameter("bno"))) {
+                    cookie.setValue(cookie.getValue() + "_" + request.getParameter("bno"));
+                    cookie.setMaxAge(60 * 60 * 2);  
                     response.addCookie(cookie);
                     service.addViewCnt(bno);
                  
                 }
             }
         } else {
-            Cookie newCookie = new Cookie("visit_cookie", request.getParameter("boardIdx"));
+            Cookie newCookie = new Cookie("visit_cookie", request.getParameter("bno"));
             newCookie.setMaxAge(60 * 60 * 2);
             response.addCookie(newCookie);
             service.addViewCnt(bno);
