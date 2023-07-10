@@ -48,5 +48,10 @@ public class BoardServiceImple implements BoardService{
     public void modifyOne(BoardDTO boardDTO) {
         boardMapper.modifyOne(boardDTO);
     }
+
+    @Override
+    public void addViewCnt(Integer bno) {
+        boardMapper.incremetViewCnt(bno);
+    }
     
 }

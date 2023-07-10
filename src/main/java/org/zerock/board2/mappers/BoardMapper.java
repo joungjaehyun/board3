@@ -19,4 +19,6 @@ public interface BoardMapper {
     int modifyOne(BoardDTO boardDTO);
     // 1번에 리스트 몇개씩가져오는지 알려주는 맵퍼
     long listCount(PageRequestDTO pageRequestDTO);
+    // 조회수 추가
+    int incremetViewCnt(Integer bno);
 }

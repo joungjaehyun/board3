@@ -12,6 +12,9 @@ import org.zerock.board2.dto.PageRequestDTO;
 import org.zerock.board2.dto.PageResponseDTO;
 import org.zerock.board2.service.BoardService;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -36,10 +39,38 @@ public class BoardController {
     }
 
     @GetMapping("/read/{bno}")
-    public String getRead(@PathVariable("bno") Integer bno, PageRequestDTO pageRequestDTO, Model model){
+    public String getRead(
+        @PathVariable("bno") Integer bno,
+         PageRequestDTO pageRequestDTO,
+         HttpServletRequest request,
+        HttpServletResponse response, Model model){
+
+        Cookie[] cookies = request.getCookies();
+
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                log.info("cookie.getName " + cookie.getName());
+                log.info("cookie.getValue " + cookie.getValue());
+
+                if (!cookie.getValue().contains(request.getParameter("boardIdx"))) {
+                    cookie.setValue(cookie.getValue() + "_" + request.getParameter("boardIdx"));
+                    cookie.setMaxAge(60 * 60 * 2);  /* 쿠키 시간 */
+                    response.addCookie(cookie);
+                    service.addViewCnt(bno);
+                 
+                }
+            }
+        } else {
+            Cookie newCookie = new Cookie("visit_cookie", request.getParameter("boardIdx"));
+            newCookie.setMaxAge(60 * 60 * 2);
+            response.addCookie(newCookie);
+            service.addViewCnt(bno);
+        }
+
+        
 
         log.info("get Read");
-
+       
         model.addAttribute("dto", service.getOne(bno));
 
         return "/board/read";

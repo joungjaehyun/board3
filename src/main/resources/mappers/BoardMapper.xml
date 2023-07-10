@@ -31,6 +31,7 @@
         select * from tbl_board1 where bno = #{bno}
     </select>
 
+
     <insert id="insertOne" parameterType="org.zerock.board2.dto.BoardDTO">
         insert into tbl_board1 (title,content,writer) values (#{title},#{content},#{writer})
         <selectKey resultType="long" keyProperty="tno" order="AFTER">
@@ -55,23 +56,28 @@
         from 
         (select bno from tbl_board1 
         where bno > 0 
-     <if test="keyword != null and type != ''">
-      and
-      <if test="type == 'title' or type == 'all'">
-        title like concat('%', #{keyword}, '%')
-      </if>
-      <if test="type == 'content' or type == 'all'">
-        <if test="type == 'all'">or</if>
-        content like concat('%', #{keyword}, '%')
-      </if>
-      <if test="type == 'writer' or type == 'all'">
-        <if test="type == 'all'">or</if>
-        writer like concat('%', #{keyword}, '%')
-      </if>
+     <if test="keyword != null and types != null">
+      <trim prefix="and (" prefixOverrides="or" suffix=")">
+      <foreach collection="types" item="type" separator=" OR ">
+        <if test='type == "t"'>
+          title like concat('%', #{keyword}, '%')
+        </if>
+        <if test='type == "c"'>
+          content like concat('%', #{keyword}, '%')
+        </if>
+        <if test='type == "w"'>
+          writer like concat('%', #{keyword}, '%')
+        </if>
+      </foreach>
+      </trim>
     </if>
         
-        limit #{countEnd}) board
+      limit #{countEnd}) board
     
     </select>
+    
+  <update id="viewCount">
+  update tbl_board1 set viewCnt = viewCnt + 1 where bno = #{bno}
+  </update>
 
 </mapper>

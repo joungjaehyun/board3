@@ -55,6 +55,12 @@ public class PageRequestDTO {
     return temp + 1;
   }
 
+  public String[] getTypes(){
+    if(this.type == null || this.type.isEmpty()){
+      return null;
+    }
+    return this.type.split("");
+  }
   public String getLink() {
 
     if (link == null) {
