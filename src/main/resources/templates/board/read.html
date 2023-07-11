@@ -131,6 +131,8 @@
 
 
     modBtn.addEventListener("click", (e) => {
+      e.stopPropagation()
+      e.preventDefault()
       actionForm.setAttribute("action", `/board/modify/${bno}?${link}`)
       actionForm.setAttribute("method", `get`)
       actionForm.submit();
@@ -155,6 +157,7 @@
     const replyModal = document.querySelector(".replyModal")
 
     replyListUl.addEventListener("click", (e) => {
+      
       e.preventDefault();
       e.stopPropagation();
 
@@ -173,6 +176,8 @@
 
 
     document.querySelector(".modalClose").addEventListener("click", (e) => {
+      e.stopPropagation()
+      e.preventDefault()
       replyModal.hide();
     })
 
@@ -212,15 +217,18 @@
       <hr>`
         }
       }
-      console.log(listUl)
-      listUl.innerHTML = str
+      console.log(replyListUl)
+      replyListUl.innerHTML = str
 
     }
+    
 
 
 
     document.querySelector(".btnDelete").addEventListener("click", () => {
 
+      e.stopPropagation()
+      e.preventDefault()
       deleteReply(modalRno.value).then(result => {
 
         modalReply.value = '';
@@ -233,6 +241,8 @@
 
 
     document.querySelector(".btnModify").addEventListener("click", () => {
+      e.stopPropagation()
+      e.preventDefault()
       const list =
       {
         tno: tno,
@@ -243,6 +253,7 @@
       }
 
       modifyReply(list).then((value) => {
+        
 
         replyModal.hide();
         loadReply(1, true)
@@ -251,6 +262,7 @@
 
 
     document.querySelector(".btnReturnReply").addEventListener("click", () => {
+      
       const list = {
         tno: tno,
         reply: modalReply.value,

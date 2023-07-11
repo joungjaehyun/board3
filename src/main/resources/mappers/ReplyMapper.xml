@@ -18,7 +18,7 @@ insert into tbl_reply1 (bno, reply, replyer) values(#{bno},#{reply},#{replyer})
 update tbl_reply1 set gno = #{gno} where rno = #{rno}
 </update>
 
-<insert id ="insertReplyChild" parameterType="com.example.myBoard.dto.ReplyDTO">
+<insert id ="insertReplyChild" parameterType="org.zerock.board2.dto.ReplyDTO">
 
 insert into tbl_reply1 (bno, reply, replyer, gno) values(#{bno},#{reply},#{replyer}, #{gno})
   <selectKey resultType="long" keyProperty="rno" order="AFTER">
@@ -26,11 +26,11 @@ insert into tbl_reply1 (bno, reply, replyer, gno) values(#{bno},#{reply},#{reply
   </selectKey> 
 
 </insert>
-<select id="readReply" resultType="com.example.myBoard.dto.ReplyDTO">
+<select id="readReply" resultType="org.zerock.board2.dto.ReplyDTO">
 select * from tbl_reply1 where rno = #{rno}
 </select>
 
-<select id="replyList" resultType="com.example.myBoard.dto.ReplyDTO">
+<select id="replyList" resultType="org.zerock.board2.dto.ReplyDTO">
     select
     if(rno = gno, 0,1) as step , bno , rno , gno , reply, replyer , replyDate 
     from tbl_reply1
@@ -45,7 +45,7 @@ select * from tbl_reply1 where rno = #{rno}
 </delete>
 
 
-<update id="updateReply" parameterType="com.example.myBoard.dto.ReplyDTO">
+<update id="updateReply" parameterType="org.zerock.board2.dto.ReplyDTO">
 update tbl_reply 
 set reply = #{reply},
     replyer = #{replyer},
