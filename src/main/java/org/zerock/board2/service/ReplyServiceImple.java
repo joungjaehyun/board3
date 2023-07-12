@@ -39,7 +39,7 @@ public class ReplyServiceImple implements ReplyService{
             if(count != 1) {
                 throw new RuntimeException("insert error child");
             }
-            boardMapper.updateReplyCnt(vo.getBno(), 1);
+            boardMapper.updateReplyCnt(replyDTO.getBno(), 1);
             result = replyDTO.getRno();
         }
         return result;
@@ -72,7 +72,7 @@ public class ReplyServiceImple implements ReplyService{
 
     @Override
     public int replyDelete(Long rno) {
-        boardMapper.updateReplyCnt(vo.getBno(), -1);
+        boardMapper.updateReplyCnt(replyDTO.getBno(), -1);
         return replyMapper.replyDelete(rno);
     }
 
