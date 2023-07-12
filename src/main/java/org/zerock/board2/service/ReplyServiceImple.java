@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 public class ReplyServiceImple implements ReplyService{
 
     private final ReplyMapper replyMapper;
+    private final BoardMapper boardMapper;
 
     @Override
     public Long insertReply(ReplyDTO replyDTO) {
@@ -25,7 +26,7 @@ public class ReplyServiceImple implements ReplyService{
         
         if(gno == 0L) {
             int count = replyMapper.insertReply(replyDTO);
-
+            
             if(count != 1) {
                 throw new RuntimeException("Error");
             }
@@ -38,6 +39,7 @@ public class ReplyServiceImple implements ReplyService{
             if(count != 1) {
                 throw new RuntimeException("insert error child");
             }
+            boardMapper.updateReplyCnt(vo.getBno(), 1);
             result = replyDTO.getRno();
         }
         return result;
@@ -70,7 +72,7 @@ public class ReplyServiceImple implements ReplyService{
 
     @Override
     public int replyDelete(Long rno) {
-        
+        boardMapper.updateReplyCnt(vo.getBno(), -1);
         return replyMapper.replyDelete(rno);
     }
 
