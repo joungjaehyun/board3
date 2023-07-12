@@ -18,4 +18,5 @@ public class BoardDTO {
     private String regdate;
     private String moddate;
     private Integer viewCnt;
+    private Integer rCnt;
 }
