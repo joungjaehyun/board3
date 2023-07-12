@@ -58,9 +58,10 @@
             <tr th:each="board :${dto.list}">
               <td>[[${board.bno}]]</td>
               <td class="boardTD" th:data-bno="${board.bno}">[[${board.title}]]</td>
+              <td>[[${board.rCnt]]</td>
               <td>[[${board.writer}]]</td>
               <td>[[${board.regdate}]]</td>
-              <td>[[${board.rCnt]]</td>
+
               <td>[[${board.viewCnt}]]</td>
        
             </tr>
