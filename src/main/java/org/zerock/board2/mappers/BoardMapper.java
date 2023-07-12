@@ -22,5 +22,7 @@ public interface BoardMapper {
     // 조회수 추가
     int incremetViewCnt(Integer bno);
     // 댓글수 기능
+     public void updateReplyCnt(@Param("bno")Integer bno, @Param("amount")
+    int amount);
     
 }
