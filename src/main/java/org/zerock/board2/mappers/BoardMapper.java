@@ -21,4 +21,6 @@ public interface BoardMapper {
     long listCount(PageRequestDTO pageRequestDTO);
     // 조회수 추가
     int incremetViewCnt(Integer bno);
+    // 댓글수 기능
+    
 }
