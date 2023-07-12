@@ -22,7 +22,7 @@ public class PageRequestDTO {
   private int size = 10;
   private String type;
   private String keyword;
-
+  
   private String link;
 
   public void setPage(int page) {

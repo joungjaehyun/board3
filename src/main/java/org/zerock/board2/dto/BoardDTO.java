@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class BoardDTO {
     
-    private Integer bno;
+    private Long bno;
     private String title;
     private String content;
     private String writer;

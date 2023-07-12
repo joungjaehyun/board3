@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.zerock.board2.dto.PageRequestDTO;
 import org.zerock.board2.dto.PageResponseDTO;
 import org.zerock.board2.dto.ReplyDTO;
+import org.zerock.board2.mappers.BoardMapper;
 import org.zerock.board2.mappers.ReplyMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -53,13 +54,13 @@ public class ReplyServiceImple implements ReplyService{
     }
 
     @Override
-    public PageResponseDTO<ReplyDTO> replyList(PageRequestDTO requestDTO, Long tno) {
+    public PageResponseDTO<ReplyDTO> replyList(PageRequestDTO requestDTO, Long bno) {
         requestDTO.setSize(100);
 
  
-      List<ReplyDTO> list = replyMapper.replyList(requestDTO, tno);
+      List<ReplyDTO> list = replyMapper.replyList(requestDTO, bno);
    
-      int total = replyMapper.total(tno);
+      int total = replyMapper.total(bno);
  
 
       return PageResponseDTO.<ReplyDTO>withAll()
@@ -72,7 +73,9 @@ public class ReplyServiceImple implements ReplyService{
 
     @Override
     public int replyDelete(Long rno) {
-        boardMapper.updateReplyCnt(replyDTO.getBno(), -1);
+       ReplyDTO bnoDTO= replyMapper.readReply(rno);
+
+        boardMapper.updateReplyCnt(bnoDTO.getBno(),-1);
         return replyMapper.replyDelete(rno);
     }
 

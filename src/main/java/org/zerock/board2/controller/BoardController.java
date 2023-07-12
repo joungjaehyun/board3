@@ -40,7 +40,7 @@ public class BoardController {
 
     @GetMapping("/read/{bno}")
     public String getRead(
-        @PathVariable("bno") Integer bno,
+        @PathVariable("bno") Long bno,
          PageRequestDTO pageRequestDTO,
          HttpServletRequest request,
         HttpServletResponse response, Model model){
@@ -81,7 +81,7 @@ public class BoardController {
     }
 
     @GetMapping("/modify/{bno}")
-    public String getModify(@PathVariable("bno") Integer bno,  PageRequestDTO pageRequestDTO,Model model){
+    public String getModify(@PathVariable("bno") Long bno,  PageRequestDTO pageRequestDTO,Model model){
 
         log.info("get modify");
         model.addAttribute("dto", service.getOne(bno));
@@ -109,7 +109,7 @@ public class BoardController {
     }
 
     @PostMapping("/delete/{bno}")
-    public String postDelete(@PathVariable("bno")Integer bno, RedirectAttributes rttr){
+    public String postDelete(@PathVariable("bno")Long bno, RedirectAttributes rttr){
 
         log.info("post delete..."); 
         service.deleteOne(bno);

@@ -112,6 +112,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="/js/axios.js"></script>
+  <script src="/js/pageUtil.js"></script>
 
 
 
@@ -126,6 +127,7 @@
 
     const { bno } = [[${ dto }]]
     const { link } = [[${ pageRequestDTO }]]
+    const {page, size} =[[${requestDTO}]]
 
     // const {page} = [[${PageRequestDTO}]]
 
@@ -194,6 +196,7 @@
       for (let i = 0; i < list.length; i++) {
 
         const { rno, reply, replyer, replyDate, modifyDate, gno, step } = list[i]
+        const replyListStr =  makePages(page, size, totalPage)
 
         if (step === 1) {
           str += `<li data-rno=${rno} data-gno=${gno} data-reply=${reply} data-replyer=${replyer} style="margin-left: 60px">
@@ -206,6 +209,7 @@
       </li>
       <hr>`
         } else {
+         
           str += `<li data-rno=${rno} data-gno=${gno} data-reply=${reply} data-replyer=${replyer}>
       
       작성자 : ${replyer} | ${replyDate} <br> 내용 : ${reply}  
@@ -214,11 +218,13 @@
       <button>수정</button>
       <button>삭제</button>
       </li>
-      <hr>`
+      <hr>
+      `
         }
       }
       console.log(replyListUl)
       replyListUl.innerHTML = str
+      replyListUl.innerHTML +=replyListStr
 
     }
     

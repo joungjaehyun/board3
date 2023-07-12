@@ -10,9 +10,9 @@ import org.zerock.board2.dto.PageResponseDTO;
 public interface BoardService {
     
     PageResponseDTO<BoardDTO> getList(PageRequestDTO pageRequestDTO);
-    BoardDTO getOne(Integer bno);
+    BoardDTO getOne(Long bno);
     void insertOne(BoardDTO boardDTO);
-    void deleteOne(Integer bno);
+    void deleteOne(Long bno);
     void modifyOne(BoardDTO boardDTO);
-    void addViewCnt(Integer bno);
+    void addViewCnt(Long bno);
 }

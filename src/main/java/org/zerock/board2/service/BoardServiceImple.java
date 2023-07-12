@@ -28,7 +28,7 @@ public class BoardServiceImple implements BoardService{
     }
 
     @Override
-    public BoardDTO getOne(Integer bno) {
+    public BoardDTO getOne(Long bno) {
         
         return boardMapper.getOne(bno);
     }
@@ -40,7 +40,7 @@ public class BoardServiceImple implements BoardService{
     }
 
     @Override
-    public void deleteOne(Integer bno) {
+    public void deleteOne(Long bno) {
        boardMapper.deleteOne(bno);
     }
 
@@ -50,7 +50,7 @@ public class BoardServiceImple implements BoardService{
     }
 
     @Override
-    public void addViewCnt(Integer bno) {
+    public void addViewCnt(Long bno) {
         boardMapper.incremetViewCnt(bno);
     }
     
